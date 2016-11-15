@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PseudoPage</title>
+    <script src="../angular.js"></script>
+    <script src="../angular-ui-router.js"></script>
+    <script>
+    var app = angular.module('ninjaturtles', ['ui.router']);
+
+    app.config(function($stateProvider) {
+      $stateProvider
+        .state({
+          name: 'home',
+          url: '/',
+          templateUrl: 'home.html'
+        })
+        .state({
+          name: 'leo',
+          url: '/leo',
+          templateUrl: 'leo.html'
+        })
+        .state({
+          name: 'rafael',
+          url: '/rafael',
+          templateUrl: 'rafael.html'
+        })
+        .state({
+          name: 'donatello',
+          url: '/donatello',
+          templateUrl: 'donatello.html'
+        })
+        .state({
+          name: 'michaelangelo',
+          url: '/michaelangelo',
+          templateUrl: 'michaelangelo.html'
+        })
+    });
+
+    </script>
+    <style>
+    .active {
+      background-color: yellow;
+      color: black;
+    }
+    </style>
+
+
+
+  </head>
+  <body ng-app="ninjaturtles">
+    <nav>
+      <a ui-sref="home" >Home</a>
+      <a ui-sref="leo" ui-sref-active="active">Leo</a>
+      <a ui-sref="rafael" ui-sref-active="active">Rafael</a>
+      <a ui-sref="donatello" ui-sref-active="active">Donatello</a>
+      <a ui-sref="michaelangelo" ui-sref-active="active">Michaelangelo</a>
+
+
+    </nav>
+    <ui-view></ui-view>
+  </body>
+</html>

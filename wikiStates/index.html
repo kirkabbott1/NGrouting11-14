@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Wiki</title>
+    <script src="angular.js"></script>
+    <script src="angular-ui-router.js"></script>
+
+    <script>
+    function WikiPage(title, content) {
+      this.title = title;
+      this.content = content;
+    }
+
+    var pages = {
+      Python: new WikiPage('Python', 'Python is a fun to use programming language. It is great for beginners.'),
+      HTML: new WikiPage('HTML', 'HTML is the markup language used for making pages on the world wide web.')
+    };
+
+    var app = angular.module('wiki', ['ui.router']);
+
+    app.controller('PagesController', function($scope, $stateParams, $state) {
+      // console.log('page name:', $stateParams.page_name);
+      $scope.pageName = $stateParams.page_name;
+
+      $scope.page = pages[$stateParams.page_name]
+      $scope.pageState = function() {
+        $state.go('pages_edit', { page_name: $scope.pageName });
+      }
+    });
+
+    app.controller('PagesEditController', function($scope, $stateParams, $state) {
+      $scope.pageName = $stateParams.page_name;
+      $scope.page = pages[$stateParams.page_name];
+      if (!$scope.page) {
+        var page = new WikiPage($scope.pageName, '');
+        pages[$scope.pageName] = page;
+        $scope.page = page;
+
+      }
+      $scope.edit = function() {
+        $state.go('pages', { page_name: $scope.page.title });
+      }
+
+    });
+
+    app.config(function($stateProvider) {
+      $stateProvider
+      .state({
+        name: 'pages',
+        url: '/{page_name}',
+        templateUrl: 'pages.html',
+        controller: 'PagesController'
+      })
+      .state({
+        name: 'pages_edit',
+        url: '/{page_name}/edit',
+        templateUrl: 'pages_edit.html',
+        controller: 'PagesEditController'
+      });
+    });
+    </script>
+
+
+  </head>
+  <body ng-app='wiki'>
+    <ui-view></ui-view>
+
+  </body>
+</html>
